@@ -1,7 +1,7 @@
 <div class="container">
   <div class="nav-buttons">
     <div class="nav-buttons">
-      <a href="/new" class="btn btn-lg btn-success" role="button">Add Opportunity</a>
+      <a ui-sref="add" class="btn btn-lg btn-success" role="button">Add Opportunity</a>
       <a href="/dashboard" class="btn btn-lg btn-info" role="button">Refresh</a>
     </div>
   </div>
@@ -18,14 +18,14 @@
         <th>Accepted By</th>
         <th></th>
       </tr>
-      <tr class="info">
-        <td>13/09/2015 14:04</td>
-        <td>Dr J Bloggs</td>
-        <td>Urethral Catheter</td>
-        <td>45m</td>
-        <td>Ward 107</td>
-        <td>Offered</td>
-        <td></td>
+      <tr ng-repeat="opportunity in opportunities.list"  class="{{opportunity.class}}">
+        <td>{{opportunity.request_time.format("DD/MM/YY HH:mm")}}</td>
+        <td>{{opportunity.doctor}}</td>
+        <td>{{opportunity.procedure}}</td>
+        <td>{{opportunity.expiry_time.fromNow(true)}}</td>
+        <td>{{opportunity.location}}</td>
+        <td>{{opportunity.status}}</td>
+        <td>{{opportunity.accepted_by}}</td>
       </tr>
     </table>
   </div>

@@ -18,8 +18,8 @@ angular.module('slotDemo', [
     })
       .state('add', {
         url: '/add',
-        templateUrl: 'dashboard/dashboard.html',
-        controller: 'DashboardCtrl'
+        templateUrl: 'add/add.html',
+        controller: 'AddCtrl'
       })
       .state('dashboard.modal', {
         url: '/modal',
@@ -39,7 +39,7 @@ angular.module('slotDemo', [
               '</div>',
               '</div>'
             ].join(''),*/
-            templateUrl: 'mobile-phone/iphone.orig.html'
+            templateUrl: 'mobile-phone/iphone.html'
 
           }).result.finally(function () { // or .result[finally](
                 //Will be triggered always.
@@ -48,10 +48,52 @@ angular.module('slotDemo', [
           });
         }]
       });
-}).service('slot', function() {
-      var slot = this;
-      slot.message='test';
-    }
-).controller('DashboardCtrl', function(slot) {
-  console.log(slot);
-});
+})
+    .service('opportunities', function() {
+      var opportunities = this;
+      opportunities.list = [];
+    })
+    .service('configData', function() {
+      var configData = this;
+      configData.doctors = [
+        "Sean C",
+        "Matt S",
+        "Ian D",
+        "Lexi J",
+        "John G"
+      ];
+      configData.procedures = [
+          "Venepuncture",
+          "IV Cannula",
+          "Male Urethral Catheter"
+      ];
+      configData.locations = [
+          "Ward 105",
+          "Ward 106",
+          "Ward 107",
+          "MAU"
+      ];
+      configData.timelimits = [
+          "20",
+          "40",
+          "60"
+      ];
+    })
+    .controller('DashboardCtrl', function(opportunities, $scope) {
+      $scope.opportunities = opportunities;
+      console.log(opportunities);
+    })
+    .controller('AddCtrl', function(configData, $scope, opportunities, $state) {
+      $scope.configData = configData;
+      $scope.submit = function (opportunity) {
+        opportunity.status="Offered";
+        opportunity.accepted_by="";
+        opportunity.class="info";
+        opportunity.request_time=moment();
+        opportunity.expiry_time=moment(opportunity.request_time).add(opportunity.timelimit, 'minutes');
+        opportunities.list.push(opportunity);
+        console.log(opportunities.list);
+
+        $state.go('dashboard')
+      }
+    });

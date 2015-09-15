@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="nav-buttons">
+    <a ui-sref="dashboard" class="btn btn btn-danger" role="button">Cancel (Back To List)</a>
+  </div>
+  <div class="page-title"><h2>Add Learning Opportunity</h2></div>
+  <div >
+    <form class="opportunity-input-form" name="procedureForm" ng-submit="submit(opportunity)">
+      <div class="form-group">
+        <label for="doctor">Doctor Offering Supervision</label>
+        <select class="form-control" name="doctor" id="doctor" ng-model="opportunity.doctor" required ng-init="opportunity.doctor = configData.doctors[0]">
+          <option ng-repeat="doctor in configData.doctors" value="{{doctor}}">{{doctor}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="procedure">Select Procedure</label>
+        <select class="form-control" name="procedure" id="procedure" ng-model="opportunity.procedure" required ng-init="opportunity.procedure = configData.procedures[0]">
+          <option ng-repeat="procedure in configData.procedures" value="{{procedure}}">{{procedure}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <select class="form-control" id="location" name="location" ng-model="opportunity.location" ng-init="opportunity.location = configData.locations[0]">
+          <option ng-repeat="location in configData.locations" value="{{location}}">{{location}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="duration">Time Limit</label>
+        <select class="form-control" id="duration" name="duration" ng-model="opportunity.timelimit" ng-init="opportunity.timelimit = configData.timelimits[0]">
+          <option ng-repeat="timelimit in configData.timelimits" value="{{timelimit}}">{{timelimit}} mins</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">Add Opportunity</button>
+    </form>
+  </div>
+</div>
