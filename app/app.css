@@ -4,6 +4,18 @@
   background-color: red;
 }
 
+.modal-max-width {
+  max-width: 750px;
+}
+
+.fixed-width-phone {
+  width: 300px;
+}
+
+.fixed-max-width-modal {
+  max-width: 600px;
+}
+
 #last-message {
   background-color: red;
 }

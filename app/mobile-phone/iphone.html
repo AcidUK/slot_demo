@@ -1,12 +1,12 @@
 
 <div class="modal-header">
   <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <h4 class="modal-title">Modal title</h4>
+  <h4 class="modal-title">Demo Medical Student Phone</h4>
 </div>
 <div class="modal-body">
   <div class="container">
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row modal-max-width">
+      <div class="col-md-4 fixed-width-phone">
         <div class="component">
           <div class="css-device css-device--mobile phone-height">
             <div class="phone-height-screen">
@@ -33,14 +33,18 @@
             <div class="phone-height-input">
               <form ng-submit="send(message)">
               <input ng-model="message" class="input-sm phone-input-box"/>
-              <button type="submit" class="phone-send-button">Send</button>
+              <button type="submit" class="phone-send-button" ng-disabled="!message.length">Send</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        test
+      <div class="col-md-4 fixed-max-width-modal">
+        <h4>Example Messages</h4>
+        <p>This is an interactive mockup of the interface for a medical student who would interact with the system by SMS.</p>
+        <br/>
+        <h4>Instructions</h4>
+        <p>Type in the box at the bottom and press send to reply to the messages. Your messages will have a green background.</p>
       </div>
     </div>
   </div>
