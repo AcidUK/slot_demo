@@ -171,3 +171,22 @@
 .opportunity-input-form input.ng-valid.ng-touched {
   background-color: #78FA89;
 }
+
+
+.new-tooltip {
+  z-index:10; display:inline; position:absolute; color:#111;
+  padding:14px 20px;
+  margin-top:-16px; margin-left:12px;
+  width:300px; line-height:16px;
+  border:1px solid #DCA; background:#fffAF0;
+}
+
+.tooltip-low {
+  margin-top:-6px;
+}
+
+.callout {z-index:20;position:absolute;top:30px;border:0;left:-12px;}
+
+.callout-high {
+  z-index:20;position:absolute;top:16px;border:0;left:-12px;
+}

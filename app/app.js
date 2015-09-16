@@ -27,20 +27,7 @@ angular.module('slotDemo', [
         url: '/modal',
         onEnter: ['$modal', '$state', function($modal, $state) {
           console.log('Open modal');
-          $modal.open({
-            /*template: [
-              '<div class="modal-content">',
-              '<div class="modal-header">',
-              '<h3 class="modal-title">Testing</h3>',
-              '</div>',
-              '<div class="modal-body">',
-                'Testing',
-              '</div>',
-              '<div class="modal-footer">',
-              '<button class="btn btn-primary" ng-click="$dismiss()">OK</button>',
-              '</div>',
-              '</div>'
-            ].join(''),*/
+          var modalInstance = $modal.open({
             templateUrl: 'mobile-phone/iphone.html',
             controller: 'MobileCtrl'
 
@@ -77,6 +64,7 @@ angular.module('slotDemo', [
       var mobilePhone = this;
       mobilePhone.messages = [];
       mobilePhone.unreadMessages = 0;
+      mobilePhone.successfulReply = false;
 
       mobilePhone.addMessage = function(messageObject) {
         mobilePhone.messages.push(messageObject);
@@ -92,6 +80,7 @@ angular.module('slotDemo', [
             opportunities.created[message - 1].accepted_by = 'Med Student';
             mobilePhone.addMessage({direction: 'incoming', message: 'Please attend ' + opportunities.created[message - 1].location + ' in ' + opportunities.created[message - 1].expiry_time.fromNow(true)
               + ' to complete this supervised procedure. This learning opportunity has been reserved exclusively for you, please make every effort to attend.'});
+            mobilePhone.successfulReply = true;
           } else {
             mobilePhone.addMessage({direction: 'incoming', message: 'Sorry - procedure already taken this time.'});
           }
@@ -106,6 +95,14 @@ angular.module('slotDemo', [
         mobilePhone.unreadMessages++;
 
         console.log(mobilePhone);
+      }
+
+      mobilePhone.unacceptedOffers = function() {
+        var allTaken = true;
+        $.each(opportunities.list(), function (i, opportunity) {
+          if ( opportunity.status == 'Offered' ) { allTaken = false; }
+        });
+        return allTaken;
       }
     })
     .service('configData', function() {
@@ -138,7 +135,10 @@ angular.module('slotDemo', [
       $scope.opportunities = opportunities;
       $scope.mobilePhone = mobilePhone;
       console.log(opportunities.list());
-      $scope.noOpportunities = function() { if (opportunities.list().length) { return true; } else { return false; } };
+      $scope.noOpportunities = function() { if (opportunities.created.length) { return true; }  };
+      $scope.showOnFirstOfferedOpportunity = function($first, opportunity) {
+        if ($first && opportunity.status == 'Offered') { return true; }
+      }
     })
     .controller('AddCtrl', function(configData, $scope, opportunities, $state, mobilePhone) {
       $scope.configData = configData;
@@ -157,15 +157,21 @@ angular.module('slotDemo', [
         $state.go('dashboard')
       }
     })
-    .controller('MobileCtrl', function(mobilePhone, $anchorScroll, $location, $scope, $state) {
+    .controller('MobileCtrl', function(mobilePhone, $anchorScroll, $location, $scope, $state, $modalInstance) {
       $scope.mobilePhone = mobilePhone;
       $scope.mobilePhone.unreadMessages = 0;
 
       if ($scope.mobilePhone.messages.length == 0) {
+        $modalInstance.dismiss();
         $state.go('dashboard');
-        dismiss();
+
+        console.log('Should be closed...');
       }
 
+      $scope.close = function () {
+        $state.go('dashboard');
+        $modalInstance.dismiss();
+      };
 
       $scope.isLastAnchor = function(bool) {
         if (bool)
@@ -184,5 +190,6 @@ angular.module('slotDemo', [
         $scope.scrollToBottom();
       };
 
+      $scope.scrollToBottom();
       console.log('we are here');
     });

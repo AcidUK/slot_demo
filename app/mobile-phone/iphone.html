@@ -1,6 +1,6 @@
 
 <div class="modal-header">
-  <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <button type="button" class="close" aria-label="Close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
   <h4 class="modal-title">Demo Medical Student Phone</h4>
 </div>
 <div class="modal-body">
@@ -16,17 +16,6 @@
                 <div class="tail1-{{message.direction}}"></div>
                 <div class="tail2-{{message.direction}}"></div>
               </div>
-              <!--<div id="textMessage">
-                <p>a message that is long enough to wrap around and create a second line</p>
-                <div id="tailShadowleft"></div>
-                <div id="tail1left"></div>
-                <div id="tail2left"></div>
-              </div><br/>
-              <div id="textMessage">
-                <p>a reply that is long enough to wrap around and create a second line</p>
-                <div id="tail1right"></div>
-                <div id="tail2right"></div>
-              </div>-->
               <span id="last-message"></span>
             </div>
 
@@ -45,6 +34,8 @@
         <br/>
         <h4>Instructions</h4>
         <p>Type in the box at the bottom and press send to reply to the messages. Your messages will have a green background.</p>
+        <br/>
+        <button ng-click="close()" class="btn btn-success btn-lg" ng-show="mobilePhone.successfulReply">Back to Dashboard</button>
       </div>
     </div>
   </div>
