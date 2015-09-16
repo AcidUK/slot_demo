@@ -7,7 +7,8 @@ angular.module('slotDemo', [
   'ui.bootstrap.modal',
 //  'slotDemo.new',
 //  'slotDemo.phone'
-]).config(function ($stateProvider, $urlRouterProvider) {
+])
+    .config(function ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/dashboard');
 
   $stateProvider
@@ -39,7 +40,8 @@ angular.module('slotDemo', [
               '</div>',
               '</div>'
             ].join(''),*/
-            templateUrl: 'mobile-phone/iphone.html'
+            templateUrl: 'mobile-phone/iphone.html',
+            controller: 'MobileCtrl'
 
           }).result.finally(function () { // or .result[finally](
                 //Will be triggered always.
@@ -52,6 +54,22 @@ angular.module('slotDemo', [
     .service('opportunities', function() {
       var opportunities = this;
       opportunities.list = [];
+    })
+    .service('mobilePhone', function() {
+      var mobilePhone = this;
+      mobilePhone.messages = [];
+      mobilePhone.unreadMessages = 0;
+
+      mobilePhone.addMessage = function(messageObject) {
+        mobilePhone.messages.push(messageObject);
+      };
+
+      mobilePhone.addOpportunityMessage = function(procedure, location, expiry_time, doctor) {
+        mobilePhone.addMessage({direction: 'incoming', message: procedure + ' at ' + location + '.\nAttend within ' + expiry_time + '.\nAsk for ' + doctor});
+        mobilePhone.unreadMessages++;
+
+        console.log(mobilePhone);
+      }
     })
     .service('configData', function() {
       var configData = this;
@@ -79,11 +97,12 @@ angular.module('slotDemo', [
           "60"
       ];
     })
-    .controller('DashboardCtrl', function(opportunities, $scope) {
+    .controller('DashboardCtrl', function(opportunities, $scope, mobilePhone) {
       $scope.opportunities = opportunities;
+      $scope.mobilePhone = mobilePhone;
       console.log(opportunities);
     })
-    .controller('AddCtrl', function(configData, $scope, opportunities, $state) {
+    .controller('AddCtrl', function(configData, $scope, opportunities, $state, mobilePhone) {
       $scope.configData = configData;
       $scope.submit = function (opportunity) {
         opportunity.status="Offered";
@@ -94,6 +113,36 @@ angular.module('slotDemo', [
         opportunities.list.push(opportunity);
         console.log(opportunities.list);
 
+        mobilePhone.addOpportunityMessage(opportunity.procedure, opportunity.location, opportunity.expiry_time.format('HH:mm'), opportunity.doctor);
+
         $state.go('dashboard')
       }
+    })
+    .controller('MobileCtrl', function(mobilePhone, $anchorScroll, $location, $scope, $state) {
+      $scope.mobilePhone = mobilePhone;
+      $scope.mobilePhone.unreadMessages = 0;
+
+      if ($scope.mobilePhone.messages.length == 0) {
+        $state.go('dashboard');
+        dismiss();
+      }
+
+
+      $scope.isLastAnchor = function(bool) {
+        if (bool)
+          return 'last-message';
+      };
+
+      $scope.scrollToBottom = function() {
+        console.log('firing');
+        $(".phone-height-screen").animate({'scrollTop': $( "#last-message" ).offset().top}, 300, 'swing');
+      };
+
+      $scope.send = function(message) {
+        mobilePhone.addMessage({direction: 'outgoing', message: message});
+        $scope.message='';
+        $scope.scrollToBottom();
+      };
+
+      console.log('we are here');
     });

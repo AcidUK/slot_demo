@@ -2,11 +2,10 @@
   <div class="nav-buttons">
     <div class="nav-buttons">
       <a ui-sref="add" class="btn btn-lg btn-success" role="button">Add Opportunity</a>
-      <a href="/dashboard" class="btn btn-lg btn-info" role="button">Refresh</a>
     </div>
   </div>
   <div class="page-title"><h2>Existing Learning Opportunities</h2></div>
-  <div class="ie-table-fix">
+  <div>
     <table class="table">
       <tr>
         <th>Time Requested</th>
@@ -28,5 +27,9 @@
         <td>{{opportunity.accepted_by}}</td>
       </tr>
     </table>
+  </div>
+  <div>
+    <a ui-sref="dashboard.modal" class="btn btn-lg btn-info" role="button" ng-show="mobilePhone.unreadMessages">Launch Mobile Phone ({{mobilePhone.unreadMessages}} new <ng-pluralize count="mobilePhone.unreadMessages"
+                                                                                                                                                    when="{'1': 'message', '2': 'messages'}"></ng-pluralize>)</a>
   </div>
 </div>

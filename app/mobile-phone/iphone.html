@@ -10,7 +10,13 @@
         <div class="component">
           <div class="css-device css-device--mobile phone-height">
             <div class="phone-height-screen">
-              <div id="textMessage">
+              <div ng-repeat="message in mobilePhone.messages" class="textMessage-{{message.direction}}" >
+                <p id="">{{message.message}}</p>
+                <div class="tailShadow-{{message.direction}}"></div>
+                <div class="tail1-{{message.direction}}"></div>
+                <div class="tail2-{{message.direction}}"></div>
+              </div>
+              <!--<div id="textMessage">
                 <p>a message that is long enough to wrap around and create a second line</p>
                 <div id="tailShadowleft"></div>
                 <div id="tail1left"></div>
@@ -20,11 +26,15 @@
                 <p>a reply that is long enough to wrap around and create a second line</p>
                 <div id="tail1right"></div>
                 <div id="tail2right"></div>
-              </div>
+              </div>-->
+              <span id="last-message"></span>
             </div>
+
             <div class="phone-height-input">
-              <input class="input-sm phone-input-box"/>
-              <button class=" phone-send-button">Send</button>
+              <form ng-submit="send(message)">
+              <input ng-model="message" class="input-sm phone-input-box"/>
+              <button type="submit" class="phone-send-button">Send</button>
+              </form>
             </div>
           </div>
         </div>
