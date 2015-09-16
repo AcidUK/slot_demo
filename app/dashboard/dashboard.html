@@ -2,6 +2,7 @@
   <div class="nav-buttons">
     <div class="nav-buttons">
       <a id="add-button" ui-sref="add" class="btn btn-lg btn-success " role="button">Add Opportunity</a>
+      <!-- Tooltip for adding a new button. Only shown when there are no added opportunities -->
       <span class="new-tooltip" ng-hide="noOpportunities()">
         <img class="callout" src="images/callout.gif" />
         <strong>Click here</strong> to add a demo learning opportunity and see how the system works.
@@ -28,7 +29,9 @@
         <td>{{opportunity.procedure}}</td>
         <td>{{opportunity.expiry_time.fromNow(true)}}</td>
         <td>{{opportunity.location}}</td>
-        <td>{{opportunity.status}}<span class="new-tooltip" ng-show="showOnFirstOfferedOpportunity($first, opportunity)">
+        <td>{{opportunity.status}}
+          <!-- Tooltip for demonstrating an offered opportunity, only shown when there is an accepted opportunity, and only for the first one -->
+          <span class="new-tooltip" ng-show="showOnFirstOfferedOpportunity($first, opportunity)">
             <img class="callout-high" src="images/callout.gif" />
             This is the new learning opportunity that you have added. Note that it is currently marked as <strong>Offered</strong>.
           </span></td>
@@ -38,12 +41,13 @@
   </div>
   <div ng-hide="mobilePhone.unacceptedOffers()">
     <a ui-sref="dashboard.modal" class="btn btn-lg btn-info" role="button">Launch Mobile Phone <ng-pluralize count="mobilePhone.unreadMessages"
-                                                                                                                                                    when="{'1': '(' + mobilePhone.unreadMessages + ' new message)',
-                                                                                                                                                           'other': '(' + mobilePhone.unreadMessages + ' new messages)',
-                                                                                                                                                           '0': ''}"></ng-pluralize></a>
+                                                                                                             when="{'1': '(' + mobilePhone.unreadMessages + ' new message)',
+                                                                                                                    'other': '(' + mobilePhone.unreadMessages + ' new messages)',
+                                                                                                                    '0': ''}"></ng-pluralize></a>
+    <!-- Tooltip for prompting user to load the mobile phone interface -->
     <span class="new-tooltip">
-            <img class="callout" src="images/callout.gif" />
-            <strong>Click here</strong> to launch a demo of a mobile phone and see what the medical student would receive
-          </span>
+      <img class="callout" src="images/callout.gif" />
+      <strong>Click here</strong> to launch a demo of a mobile phone and see what the medical student would receive
+    </span>
   </div>
 </div>
